@@ -1,20 +1,28 @@
 // function to load phones
-const loadPhones = async (searchText) => {
+const loadPhones = async (searchText,dataLimit) => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
     const res = await fetch(url);
     const data = await res.json();
-    displayPhones(data.data);
+    displayPhones(data.data, dataLimit);
 }
 
-const displayPhones = phones => {
+const displayPhones = (phones,dataLimit) => {
     console.log(phones);
     // 1. get phones container
     const phonesContainer = document.getElementById("phones-container");
     // for each search result, remove previous result and show just current result.
     // so emptying the innertext of phonesContainer
     phonesContainer.innerText = "";
-    // display first 20 phones only.
-    phones = phones.slice(0, 20);
+    // display first 10 phones only and show all button
+    const showAll = document.getElementById("show-all");
+    if (dataLimit && phones.length > 10) {
+        phones = phones.slice(0, 10);
+        showAll.classList.remove("d-none");
+    }
+    else {
+        showAll.classList.add("d-none");
+    }
+
     // no results display container 
     const noResultDiv = document.getElementById("no-results-msg");
     // condition to check if no results is found for any query
@@ -48,28 +56,41 @@ const displayPhones = phones => {
     toggleSpinner(false);
 }
 
-// Task: show search results when search button is clicked.
-document.getElementById('btn-search').addEventListener('click', function () {
+// function to perform search process when search button is clicked
+const processSearch = (dataLimit) =>{
     // show loading spinner
     toggleSpinner(true);
     //1. take input search value from search input field
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
     // 2. empty search string after a search text is taken and being worked.
-    searchField.value = "";
+    // searchField.value = "";
     // 3. call loadphones() funciton to show new result
-    loadPhones(searchText);
+    loadPhones(searchText,dataLimit);
+}
+// Task: show search results when search button is clicked.
+document.getElementById('btn-search').addEventListener('click', function () {
+    // first show 10 results only. so sending 10 as parameter
+    processSearch(10);
 });
-const toggleSpinner = isLoading =>{
+
+// function to show loading spinner when a search query is made.
+const toggleSpinner = isLoading => {
     const loadSection = document.getElementById("loader");
     // loading is true. means search has started. so shwo load spinner
-    if(isLoading)
-    {
+    if (isLoading) {
         loadSection.classList.remove("d-none");
     }
     // loading is false. so search result is being shown. stop spinner
-    else{
+    else {
         loadSection.classList.add("d-none");
     }
 }
+
+
+// function to add even handler on show-all button
+document.getElementById("btn-show-all").addEventListener('click', function(){
+    // show-all button will show all resutls. so no parameter is taken inside processSearch() function
+   processSearch();
+})
 // loadPhones();
