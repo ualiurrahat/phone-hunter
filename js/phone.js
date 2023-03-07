@@ -43,11 +43,12 @@ const displayPhones = (phones,dataLimit) => {
         phoneDiv.innerHTML = `
          <div class="card h-100 p-4">
             <img  src="${phone.image}" class="card-img-top" alt="...">
-            <div class="card-body">
-            <h5 class="card-title">${phone.phone_name}</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                to additional content. This content is a little bit longer.</p>
-            </div>
+                <div class="card-body">
+                <h5 class="card-title">${phone.phone_name}</h5>
+                <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                    to additional content. This content is a little bit longer.</p>
+                <button onclick = "loadPhoneDetails('${phone.slug}')" class="btn btn-primary">Show Details</button>
+                </div>
         </div>`;
         //4. append phoneDiv as child of conatainer div
         phonesContainer.appendChild(phoneDiv);
@@ -73,6 +74,18 @@ document.getElementById('btn-search').addEventListener('click', function () {
     // first show 10 results only. so sending 10 as parameter
     processSearch(10);
 });
+// show search result when enter is clicked on keyboard after search query is written.
+// Get the input field
+var input = document.getElementById("search-field");
+
+// Execute a function when the user presses a key on the keyboard
+input.addEventListener("keypress", function(event) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "Enter") {
+    // show search query result
+    processSearch(10);
+  }
+});
 
 // function to show loading spinner when a search query is made.
 const toggleSpinner = isLoading => {
@@ -93,4 +106,13 @@ document.getElementById("btn-show-all").addEventListener('click', function(){
     // show-all button will show all resutls. so no parameter is taken inside processSearch() function
    processSearch();
 })
+
+// function to add event handler to show details button
+const loadPhoneDetails = async id =>{
+    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data);
+}
+
 // loadPhones();
