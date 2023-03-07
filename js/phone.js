@@ -47,7 +47,7 @@ const displayPhones = (phones,dataLimit) => {
                 <h5 class="card-title">${phone.phone_name}</h5>
                 <p class="card-text">This is a longer card with supporting text below as a natural lead-in
                     to additional content. This content is a little bit longer.</p>
-                <button onclick = "loadPhoneDetails('${phone.slug}')" class="btn btn-primary">Show Details</button>
+                <button onclick = "loadPhoneDetails('${phone.slug}')" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#phoneDetailModal">Show Details</button>
                 </div>
         </div>`;
         //4. append phoneDiv as child of conatainer div
@@ -112,7 +112,21 @@ const loadPhoneDetails = async id =>{
     const url = `https://openapi.programming-hero.com/api/phone/${id}`;
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data);
+    displayPhoneDetail(data.data);
 }
 
-// loadPhones();
+const displayPhoneDetail = phone =>{
+    // console.log(phone);
+    // set modal title as phone title
+    const modalTitle = document.getElementById("phoneDetailModalLabel");
+    modalTitle.innerText = phone.name;
+    const phoneDetails = document.getElementById('phone-modal');
+    phoneDetails.innerHTML = `
+    <p>Storage: ${phone.mainFeatures ? phone.mainFeatures.storage: "No main feature found"}</p>
+    <p>Display Size: ${phone.mainFeatures ? phone.mainFeatures.displaySize: "No display data found"}</p>
+    <p>Chip Set: ${phone.mainFeatures ? phone.mainFeatures.chipSet: "No chip set found"}</p>
+    <p>Memory: ${phone.mainFeatures ? phone.mainFeatures.memory: "No memory data found"}</p>
+    
+    `;
+}
+ loadPhones('apple');
