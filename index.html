@@ -10,19 +10,25 @@
 </head>
 
 <body>
-    <header>
-        <h1>Welcome To Phone Hunter!</h1>
-    </header>
-
-    <main id="container mt-5">
+    <header class="m-5 d-flex">
+        <h1 class="me-auto">Welcome To Phone Hunter!</h1>
         <!-- search input field  -->
         <input type="text" name="" id="search-field" class="w-25 ms-4 m-3" placeholder="Search your phone">
         <!-- search button  -->
-        <button id="btn-search" class="btn btn-primary">Search</button>        <section class="m-5">
+        <button id="btn-search" class="btn btn-primary btn-lg">Search</button>
+    </header>
+
+    <main class="container">
+
+        <section class="m-5">
+            <!-- phone container div  -->
             <div id="phones-container" class="row row-cols-1 row-cols-md-3 g-4">
 
             </div>
-
+            <!-- show warning for no results  -->
+            <div class="mt-4 d-none" id="no-results-msg">
+                <h3 class="text-warning">No results! Please try a new search.</h3>
+            </div>
         </section>
     </main>
 

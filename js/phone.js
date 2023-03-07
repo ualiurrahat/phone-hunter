@@ -13,6 +13,19 @@ const displayPhones = phones => {
     // for each search result, remove previous result and show just current result.
     // so emptying the innertext of phonesContainer
     phonesContainer.innerText = "";
+    // display first 20 phones only.
+    phones = phones.slice(0, 20);
+    // no results display container 
+    const noResultDiv = document.getElementById("no-results-msg");
+    // condition to check if no results is found for any query
+    // then phones array will be empty
+    if (phones.length === 0) {
+
+        noResultDiv.classList.remove("d-none");
+    }
+    else {
+        noResultDiv.classList.add("d-none");
+    }
     // 2. create div for each phone
     phones.forEach(phone => {
         const phoneDiv = document.createElement("div");
@@ -34,7 +47,7 @@ const displayPhones = phones => {
 }
 
 // Task: show search results when search button is clicked.
-document.getElementById('btn-search').addEventListener('click', function(){
+document.getElementById('btn-search').addEventListener('click', function () {
     //1. take input search value from search input field
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
