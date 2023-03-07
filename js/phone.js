@@ -44,10 +44,14 @@ const displayPhones = phones => {
         //4. append phoneDiv as child of conatainer div
         phonesContainer.appendChild(phoneDiv);
     });
+    // stop loading spinner
+    toggleSpinner(false);
 }
 
 // Task: show search results when search button is clicked.
 document.getElementById('btn-search').addEventListener('click', function () {
+    // show loading spinner
+    toggleSpinner(true);
     //1. take input search value from search input field
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
@@ -55,5 +59,17 @@ document.getElementById('btn-search').addEventListener('click', function () {
     searchField.value = "";
     // 3. call loadphones() funciton to show new result
     loadPhones(searchText);
-})
-loadPhones('iphone');
+});
+const toggleSpinner = isLoading =>{
+    const loadSection = document.getElementById("loader");
+    // loading is true. means search has started. so shwo load spinner
+    if(isLoading)
+    {
+        loadSection.classList.remove("d-none");
+    }
+    // loading is false. so search result is being shown. stop spinner
+    else{
+        loadSection.classList.add("d-none");
+    }
+}
+// loadPhones();
